@@ -63,7 +63,7 @@ body {
     flex-direction: column;
     row-gap: 20px;
 }
-.days-temp {
+/* .days-temp {
     margin: 0 0 20px;
 }
 .days-temp>div {
@@ -72,7 +72,14 @@ body {
     align-items: center;
     border-bottom: #222 1px dotted;
     padding: 2px 0 2px;
-}
+} */
+ .forecast-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: #222 1px dotted;
+    padding: 2px 0 2px;
+ }
 .btn-city-input{
     padding: 8px 20px;
     border: none;

@@ -2,11 +2,13 @@
 /* JSON file - Weather API */
 const API_KEY = "3cc790b1653416aade4ba256c95e0c67"
 const BASE_URL = "https://api.openweathermap.org/data/2.5/weather"
-let cityWeather = "Stockholm";
+const FORECAST_BASE_URL = "https://api.openweathermap.org/data/2.5/forecast?"
+let cityWeather = "Sevilla";
 
 /* URL for API */
 const URL = `${BASE_URL}?q=${cityWeather}&units=metric&APPID=${API_KEY}`
-console.log(URL)
+const FORECAST_URL = `${FORECAST_BASE_URL}q=${cityWeather}&units=metric&APPID=${API_KEY}`
+
 
 
 /* Function to fetch weather data based on the city name */
@@ -48,7 +50,8 @@ const weatherIcon = document.getElementById("icon-weather")
 const weatherType = document.getElementById("upper-info-weather-type")
 const weatherTemp = document.getElementById("upper-info-weather-temp")
 const timeSunrise = document.getElementById("upper-info-sunrise-time")
-const timeSunset = document.getElementById("upper-info-sunset-time")/* 
+const timeSunset = document.getElementById("upper-info-sunset-time")
+const forecastWrapper = document.getElementById('ForecastWrapper')
 
 
 /* Sparad data från JSON-fil */
@@ -119,3 +122,53 @@ const showNewHTML = (data) => {
         
         
         })
+
+/* Hämta data/väderlek för 5 dagar från JSON-fil */
+fetch(FORECAST_URL)
+  .then(response => response.json())
+  .then(data => {
+    updateForecastHTML(data)
+  })
+
+
+const updateForecastHTML = (data) => {
+    forecastWrapper.innerHTML = '' // Clear previous forecast
+    const forecastArray = data.list
+          
+            // Group forecasts by day
+            const dailyForecasts = {}
+            forecastArray.forEach(entry => {
+              const date = new Date(entry.dt * 1000)
+              const day = date.toLocaleDateString('en-SE', { weekday: 'short' })
+              const today = new Date().toLocaleDateString('en-SE', { weekday: 'short' })
+              if (day === today) return // Skip today's forecast
+              if (!dailyForecasts[day]) {
+                dailyForecasts[day] = []
+              }
+              dailyForecasts[day].push(entry)
+            })
+          
+            // Process each day's forecast
+            Object.keys(dailyForecasts).forEach(day => {
+              const forecasts = dailyForecasts[day]
+              let tempHigh = -Infinity
+              let tempLow = Infinity
+          
+              forecasts.forEach(forecast => {
+                if (forecast.main.temp_max > tempHigh) {
+                  tempHigh = forecast.main.temp_max
+                }
+                if (forecast.main.temp_min < tempLow) {
+                  tempLow = forecast.main.temp_min
+                }
+              })
+          
+              const forecastRow = document.createElement('div')
+              forecastRow.classList.add('forecast-row')
+              forecastRow.innerHTML = `
+                    <div class="forecast-day">${day}</div>
+                    <div class="forecast-temp">${Math.round(tempHigh)} / ${Math.round(tempLow)}°C</div>
+                    `
+                    forecastWrapper.appendChild(forecastRow)
+            })
+          }
