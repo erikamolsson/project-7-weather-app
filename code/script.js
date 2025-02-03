@@ -14,32 +14,32 @@ const FORECAST_URL = `${FORECAST_BASE_URL}q=${cityWeather}&units=metric&APPID=${
 /* Function to fetch weather data based on the city name */
 
 /* Get references to the input field and button */
- const searchInput = document.getElementById("city-input");
- const searchButton = document.getElementById("btn-city-input");
+//  const searchInput = document.getElementById("city-input");
+//  const searchButton = document.getElementById("btn-city-input");
 
 
-/* Add event listener for the button click */
- searchButton.addEventListener("click", function() {
-    cityWeather = searchInput.value;
+// /* Add event listener for the button click */
+//  searchButton.addEventListener("click", function() {
+//     cityWeather = searchInput.value;
 
-    console.log('Search query:', cityWeather);
+//     console.log('Search query:', cityWeather);
 
-});
+// });
 
 
- // Trigger the search when the Enter key is pressed
- searchInput.addEventListener('keypress', function(event) {
-     if (event.key === 'Enter') {
-         // Prevent the default action of the Enter key (form submission, etc.)
-         event.preventDefault();
+//  // Trigger the search when the Enter key is pressed
+//  searchInput.addEventListener('keypress', function(event) {
+//      if (event.key === 'Enter') {
+//          // Prevent the default action of the Enter key (form submission, etc.)
+//          event.preventDefault();
 
-         // Get the value from the search input field
-         cityWeather = searchInput.value;
+//          // Get the value from the search input field
+//          cityWeather = searchInput.value;
 
-         // Log the search query
-         console.log('Search query (Enter pressed):', cityWeather);
-     }
- });
+//          // Log the search query
+//          console.log('Search query (Enter pressed):', cityWeather);
+//      }
+//  });
 
 
 
